@@ -1,10 +1,3 @@
-//
-//  YYPhotoGroupView.m
-//  YYPhotoGroupView
-//
-//  Created by 赵铭 on 2017/9/1.
-//  Copyright © 2017年 zm. All rights reserved.
-//
 
 #import "YYPhotoGroupView.h"
 #import "UIView+YYAdd.h"
@@ -37,6 +30,14 @@ static CGSize CGSizePixelCeil(CGSize size){
 
 
 @implementation YYPhotoGroupItem
+
+- (UIImage *)thumbImage {
+    if ([_thumbView respondsToSelector:@selector(image)]) {
+        return ((UIImageView *)_thumbView).image;
+    }
+    return nil;
+}
+
 - (id)copyWithZone:(nullable NSZone *)zone{
     YYPhotoGroupItem * item = [self.class new];
     return item;
@@ -161,14 +162,18 @@ static CGSize CGSizePixelCeil(CGSize size){
     __weak typeof(self) weakSelf = self;
     [_imageView sd_setImageWithURL:item.largeImageURL placeholderImage:item.thumbImage options:kNilOptions progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         __strong typeof(self) strongSelf = weakSelf;
-        CGFloat progress = receivedSize / expectedSize;
+        CGFloat progress = receivedSize / (float)expectedSize;
+        NSLog(@"%f,--%d---%d",progress,receivedSize,expectedSize);
         progress = progress < 0.01 ? 0.01 : (progress > 1 ? 1 : progress);
         if (isnan(progress)) {
             progress = 0;
         }
         strongSelf.progressLayer.hidden = NO;
         //下载进度动画
-        strongSelf.progressLayer.strokeEnd = progress;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.progressLayer.strokeEnd = progress;
+        });
+//        NSLog(@"%.2f",progress);
         
     } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -184,7 +189,7 @@ static CGSize CGSizePixelCeil(CGSize size){
         }
     }];
     
-    [self resizeSubviewSize];
+//    [self resizeSubviewSize];
 }
 
 - (void)resizeSubviewSize{
@@ -411,10 +416,10 @@ static CGSize CGSizePixelCeil(CGSize size){
 //        if ([[SDWebImageManager sharedManager].imageCache imageFromMemoryCacheForKey:imageKey]) {
 //            cell.item = item;
 //        }
-        
+
         [SDWebImageManager.sharedManager.imageCache queryImageForKey:imageKey options:SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
             cell.item = item;
-            
+
         }];
     }
     
