@@ -1,0 +1,33 @@
+PODS:
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - QQXPhotosBrowser (0.1.0)
+  - SDWebImage (5.15.5):
+    - SDWebImage/Core (= 5.15.5)
+  - SDWebImage/Core (5.15.5)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - QQXPhotosBrowser (from `../`)
+  - SDWebImage
+
+SPEC REPOS:
+  trunk:
+    - FBSnapshotTestCase
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  QQXPhotosBrowser:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  QQXPhotosBrowser: e11cc7a6caefa9e40f2649330d85d74c6e482c97
+  SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
+
+PODFILE CHECKSUM: 9376bd8ed0b3157669d04e43ec9d5434e8b68b71
+
+COCOAPODS: 1.11.3

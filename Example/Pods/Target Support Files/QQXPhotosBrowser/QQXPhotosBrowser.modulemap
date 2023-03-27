@@ -1,0 +1,6 @@
+framework module QQXPhotosBrowser {
+  umbrella header "QQXPhotosBrowser-umbrella.h"
+
+  export *
+  module * { export * }
+}
